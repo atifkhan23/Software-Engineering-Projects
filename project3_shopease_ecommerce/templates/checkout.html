@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Checkout - ShopEase{% endblock %}
+{% block content %}
+    <h1 class="text-center">Checkout</h1>
+    {% if cart_items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>${{ '%.2f' % item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ '%.2f' % (item.quantity * item.product.price) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Total: ${{ '%.2f' % total }}</h4>
+        <form method="POST">
+            <button type="submit" class="btn btn-success">Confirm Payment (Simulated)</button>
+        </form>
+    {% else %}
+        <p class="text-center">Your cart is empty.</p>
+    {% endif %}
+{% endblock %}

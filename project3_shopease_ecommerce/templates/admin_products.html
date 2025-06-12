@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Manage Products - ShopEase{% endblock %}
+{% block content %}
+    <h1 class="text-center">Manage Products</h1>
+    <form method="POST" class="row g-3 mt-2">
+        <div class="col-md-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ edit_product.name if edit_product else '' }}" required>
+        </div>
+        <div class="col-md-2">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{ edit_product.price if edit_product else '' }}" required>
+        </div>
+        <div class="col-md-2">
+            <label for="stock" class="form-label">Stock</label>
+            <input type="number" class="form-control" id="stock" name="stock" value="{{ edit_product.stock if edit_product else '' }}" required>
+        </div>
+        <div class="col-md-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category" required>
+                <option value="Electronics" {% if edit_product and edit_product.category == 'Electronics' %}selected{% endif %}>Electronics</option>
+                <option value="Clothing" {% if edit_product and edit_product.category == 'Clothing' %}selected{% endif %}>Clothing</option>
+                <option value="Books" {% if edit_product and edit_product.category == 'Books' %}selected{% endif %}>Books</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100 mt-4">{{ 'Update' if edit_product else 'Add' }}</button>
+        </div>
+    </form>
+    <div class="mt-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>${{ '%.2f' % product.price }}</td>
+                        <td>{{ product.stock }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_product', id=product.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form method="POST" action="{{ url_for('delete_product', id=product.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

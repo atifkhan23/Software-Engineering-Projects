@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Orders - ShopEase{% endblock %}
+{% block content %}
+    <h1 class="text-center">Your Orders</h1>
+    {% if orders %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>${{ '%.2f' % order.total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-center">No orders placed yet.</p>
+    {% endif %}
+{% endblock %}
