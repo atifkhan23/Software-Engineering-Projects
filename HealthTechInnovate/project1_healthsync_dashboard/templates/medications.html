@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Medications - HealthSync{% endblock %}
+{% block content %}
+    <h1 class="text-center">Manage Medications</h1>
+    <form method="POST" class="row g-3 mt-2">
+        <div class="col-md-4">
+            <label for="name" class="form-label">Medication Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="col-md-3">
+            <label for="dosage" class="form-label">Dosage</label>
+            <input type="text" class="form-control" id="dosage" name="dosage" required>
+        </div>
+        <div class="col-md-3">
+            <label for="time" class="form-label">Time</label>
+            <input type="time" class="form-control" id="time" name="time" required>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100 mt-4">Add</button>
+        </div>
+    </form>
+    <div class="mt-4">
+        {% if medications %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Dosage</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for med in medications %}
+                        <tr>
+                            <td>{{ med.name }}</td>
+                            <td>{{ med.dosage }}</td>
+                            <td>{{ med.time.strftime('%H:%M') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No medications scheduled.</p>
+        {% endif %}
+    </div>
+{% endblock %}
